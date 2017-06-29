@@ -1,0 +1,60 @@
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{err.msg}}
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="errorModal.hide();" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div  class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Equipo</th>
+                                <th>Usuario</th>
+                                <th>PG</th>
+                                <th>PE</th>
+                                <th>PP</th>
+                                <th>PJ</th>
+                                <th>GF</th>
+                                <th>GC</th>
+                                <th>Ptos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of services.league.table | orderBy: 'points':false">
+                                <td style="width:42px"><img style="width:100%" *ngIf="getTeamImage(u.teamname)" src="{{getTeamImage(u.teamname)}}" alt=""></td>
+                                <td>{{u.teamname}}</td>
+                                <td>{{u.username}}</td>
+                                <td>{{u.won}}</td>
+                                <td>{{u.draw}}</td>
+                                <td>{{u.lost}}</td>
+                                <td>{{u.played}} </td>
+                                <td>{{u.gf}}</td>
+                                <td>{{u.gc}}</td>
+                                <td>{{u.points}}</td>
+                                <td><i *ngIf="services.user && u.username==services.user.email"class="material-icons">check</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

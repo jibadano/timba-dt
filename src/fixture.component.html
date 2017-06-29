@@ -1,0 +1,114 @@
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{co.err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{co.err.msg}}
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="errorModal.hide();" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #matchModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{co.err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="matchModal.hide();liveMatch=false;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="match">
+        <div class="body table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:right" style="width:42px"><img style="width:100%" *ngIf="getTeamImage(match.local.user.teamname)" src="{{getTeamImage(match.local.user.teamname)}}" alt=""></th>
+                        <th style="text-align:right">{{match.local.user.teamname}}</th>
+                        <th style="text-align:right">{{match.local.user.username}}</th>
+                        <th style="text-align:center">{{match.local.score}} - {{match.visitor.score}}</th>
+                        <th>{{match.visitor.user.username}}</th>
+                        <th>{{match.visitor.user.teamname}}</th>
+                        <th style="width:42px"><img style="width:100%" *ngIf="getTeamImage(match.visitor.user.teamname)" src="{{getTeamImage(match.visitor.user.teamname)}}" alt=""></th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let round of match.rounds;let i = index">
+                        <td>{{i*10}}'</td>
+                        <td style="text-align:right"></td>
+                        <td style="text-align:right"><div *ngIf="round.goal==match.local.user.username">GOOOOL! <i class="material-icons" style="margin-left:10px">mood</i></div><div *ngIf="round.position==match.local.user.username && round.goal!=match.local.user.username">ATAQUE<i class="material-icons" style="margin-left:10px">directions_run</i></div></td>
+                        <td style="text-align:center">{{getMatchScoreByRound(match,i)}}</td>
+                        <td><div *ngIf="round.position==match.visitor.user.username && round.goal!=match.visitor.user.username"><i class="material-icons" style="margin-right:10px">directions_run</i>ATAQUE</div><div *ngIf="round.goal==match.visitor.user.username"><i class="material-icons" style="margin-right:10px">mood</i>GOOOOL!</div></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="matchModal.hide();liveMatch=false;" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div  class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card" data-waitme_id="688">
+                <div class="header">
+                    <h2>
+                        Basic Card Title <small>Description text here...</small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li>
+                            <a href="javascript:void(0);" (click)="services.getLeague()" data-toggle="cardloading" data-loading-effect="pulse">
+                                <i class="material-icons">loop</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th></th>
+                                <th>Local</th>
+                                <th>Usuario</th>
+                                <th>Score</th>
+                                <th>Usuario</th>
+                              <th>Visitante</th>
+                              <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr (click)="match=m;matchModal.show();liveMatch=true;showLiveMatch(i);" *ngFor="let m of services.league.fixture;let i = index;">
+                                <td>{{m.date|date:"dd/MM/y, HH:mm"}}</td>
+                                <td style="width:42px"><img style="width:100%" *ngIf="getTeamImage(m.local.user.teamname)" src="{{getTeamImage(m.local.user.teamname)}}" alt=""></td>
+                                <td>{{m.local.user.teamname}}</td>
+                                <td>{{m.local.user.username}}</td>
+                                <td>{{m.local.score}} - {{m.visitor.score}}</td>
+                                <td>{{m.visitor.user.username}}</td>
+                                <td>{{m.visitor.user.teamname}}</td>
+                                 <td style="width:42px"><img style="width:100%" *ngIf="getTeamImage(m.visitor.user.teamname)" src="{{getTeamImage(m.visitor.user.teamname)}}" alt=""></td>
+                                <td><i *ngIf="services.user && (m.local.user.username==services.user.email || m.visitor.user.username==services.user.email)"class="material-icons">check</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

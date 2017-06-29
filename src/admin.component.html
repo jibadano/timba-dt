@@ -1,0 +1,542 @@
+<!-- MODALS -->
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You'll lose all your changes, are you sure?
+        <div class="row clearfix button-demo" >
+            <button type="button" style="float:right" (click)="staticModal.hide();resetPlayer();" class="btn btn-danger m-t-15 waves-effect">Yes</button>
+            <button type="button" style="float:right" (click)="staticModal.hide();" class="btn btn-primary m-t-15 waves-effect">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{err.msg}}
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="errorModal.hide();" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- MENU -->
+<div class="row clearfix menu-buttons">
+    <button class="dropdown-toggle" (click)="navigate('players')" [class.btn-primary]="nav=='players'" [class.btn-default]="nav!='players'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-circle-lg waves-effect waves-circle waves-float">
+        <i class="material-icons">directions_run</i>
+    </button>
+    <button class="dropdown-toggle" (click)="navigate('teams')" [class.btn-primary]="nav=='teams'" [class.btn-default]="nav!='teams'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-circle-lg waves-effect waves-circle waves-float">
+        <i class="material-icons">security</i>
+    </button>
+    <button class="dropdown-toggle" (click)="navigate('users')" [class.btn-primary]="nav=='users'" [class.btn-default]="nav!='users'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-circle-lg waves-effect waves-circle waves-float">
+        <i class="material-icons">person</i>
+    </button>
+     <button class="dropdown-toggle" (click)="navigate('league')" [class.btn-primary]="nav=='league'" [class.btn-default]="nav!='league'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-circle-lg waves-effect waves-circle waves-float">
+        <i class="material-icons">stars</i>
+    </button>
+     <button class="dropdown-toggle" (click)="navigate('log')" [class.btn-primary]="nav=='log'" [class.btn-default]="nav!='log'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-circle-lg waves-effect waves-circle waves-float">
+        <i class="material-icons">speaker_notes</i>
+    </button>
+    <div class="menu-right-buttons">
+        <button *ngIf="!add && nav == 'players'" (click)="setNewPlayerForm()" type="button" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float">
+            <i  class="material-icons">add</i>
+        </button>
+        <button *ngIf="!add && nav == 'teams'" (click)="setNewTeamForm()" type="button" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float">
+            <i  class="material-icons">add</i>
+        </button>
+        <button *ngIf="!add && nav == 'users'" (click)="setNewUserForm()" type="button" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float">
+            <i  class="material-icons">add</i>
+        </button>
+        <button *ngIf="add" (click)="staticModal.show()" type="button" class="btn btn-danger btn-circle-lg waves-effect waves-circle waves-float">
+            <i  class="material-icons">close</i>
+        </button>
+    </div>
+    
+</div>
+
+
+
+
+<!-- PLAYERS -->
+<div *ngIf="nav=='players'">
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive main-object">
+                    <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div  class="image-container">
+                            <button *ngIf=" edit" (click)="uploadImage()"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" style="position:absolute" class=" img-button btn btn-warning btn-circle waves-effect waves-circle waves-float">
+                                <i class="material-icons">image</i>
+                            </button>
+                            <img *ngIf="player.image && player.image != ''" src="{{player.image}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
+                        <form class="form-horizontal" style="margin-top:12px">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <label for="email_address_2">Name</label>                                
+                                    <div class="form-group form-group-lg">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="player.name" [ngModelOptions]="{standalone: true}" type="text" id="email_address_2" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address">ATK</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="player.stats.ATK" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="ATK" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">TEC</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="player.stats.TEC" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="TEC" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">DEF</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="player.stats.DEF" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="DEF" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address_2">Price</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input disabled [(ngModel)]="player.price" [ngModelOptions]="{standalone: true}" type="text" id="email_address_2" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-8 save">  
+                                    <div class="button-demo">
+                                        <button *ngIf="!edit" type="button" (click)="edit=true" class="save btn btn-primary m-t-15 waves-effect">Edit</button>
+                                        <button *ngIf="edit" type="button" (click)="savePlayer();edit=false;" class="save btn btn-success m-t-15 waves-effect">Save</button>
+                                         <button *ngIf="!edit" type="button" (click)="removePlayer()" class="save btn btn-danger m-t-15 waves-effect">Remove</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ATK</th>
+                                <th>TEC</th>
+                                <th>DEF</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor:pointer" [class.primary]="player.name==p.name" *ngFor="let p of players" (click)="setPlayer(p);">
+                                <td>{{p.name}}</td>
+                                <td>{{p.stats.ATK}}</td>
+                                <td>{{p.stats.TEC}} </td>
+                                <td>{{p.stats.DEF}}</td>
+                                <td>{{p.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- TEAMS -->
+<div *ngIf="nav=='teams'">
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+
+                <div class="body table-responsive main-object">
+                    <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div  class="image-container">
+                            <button *ngIf="edit" (click)="uploadImage()" style="position:absolute"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" type="button" class=" img-button btn btn-warning btn-circle waves-effect waves-circle waves-float">
+                                <i class="material-icons">image</i>
+                            </button>
+                            <img *ngIf="team.image && team.image != ''" src="{{team.image}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
+                        <form class="form-horizontal" style="margin-top:12px">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <label for="email_address_2">Name</label>                                
+                                    <div class="form-group form-group-lg">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="team.name" [ngModelOptions]="{standalone: true}" type="text" id="email_address_2" class="form-control" placeholder="Enter your email address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address">ATK</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="team.stats.ATK" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="ATK" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">TEC</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="team.stats.TEC" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="TEC" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">DEF</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input [disabled]="!edit" [(ngModel)]="team.stats.DEF" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="DEF" name="number" required="" aria-required="true" aria-invalid="true">
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address_2">Price</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{getPrice()}}
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-8 save">  
+                                    <div class="button-demo">
+                                        <button *ngIf="!edit" type="button" (click)="edit=true" class="save btn btn-primary m-t-15 waves-effect">Edit</button>
+                                       
+                                 <button *ngIf="edit" type="button" (click)="saveTeam();edit=false;" class="save btn btn-success m-t-15 waves-effect">Save</button>
+                                                                        <button *ngIf="!edit" type="button" (click)="removeTeam()" class="save btn btn-danger m-t-15 waves-effect">Remove</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ATK</th>
+                                <th>TEC</th>
+                                <th>DEF</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor:pointer" [class.primary]="team.name==t.name" *ngFor="let t of teams" (click)="setTeam(t);">
+                                <td>{{t.name}}</td>
+                                <td>{{t.stats.ATK}}</td>
+                                <td>{{t.stats.TEC}} </td>
+                                <td>{{t.stats.DEF}}</td>
+                                <td>{{t.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- LEAGUES -->
+<div *ngIf="nav=='league'">
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive main-object">
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                        <form class="form-horizontal" style="margin-top:32px">
+                            <div class="row clearfix">
+                                <div class="col-sm-2">
+                                    <label for="email_address">Comienzo</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <timepicker [readonlyInput]="services.league.playing" [showMeridian]="false" [(ngModel)]="config.startDate" [ngModelOptions]="{standalone: true}"></timepicker>
+                                        </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row clearfix">
+                                    <div class="col-sm-3">
+                                        <label for="email_address">Tiempo entre partidos</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input [disabled]="services.league.playing" [(ngModel)]="config.matchDelay" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="Tiempo entre partidos" name="number" required="" aria-required="true" aria-invalid="true">
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="email_address">Duración de ronda</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input [disabled]="services.league.playing" [(ngModel)]="config.roundDelay" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="Tiempo entre rondas" name="number" required="" aria-required="true" aria-invalid="true">
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-3">
+                                            <label for="email_address">Cantidad de rondas</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input [disabled]="services.league.playing" [(ngModel)]="config.roundsPerMatch" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="rondas por partido" name="number" required="" aria-required="true" aria-invalid="true">
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-sm-3">
+                                            <label for="email_address">Cantidad de partidos por día</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input [disabled]="services.league.playing" [(ngModel)]="config.matchsPerDay" [ngModelOptions]="{standalone: true}" type="number" class="form-control" max="99" placeholder="partidos por día" name="number" required="" aria-required="true" aria-invalid="true">
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-2">
+                                        <label for="email_address">Cantidad de Jugadores</label>
+                                    </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.league.table.length}}
+                                        </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="email_address">Apuesta total</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.getBetAmount()}}
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col-sm-2">
+                                        <label for="email_address">Apuesta promedio</label>
+                                    </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.getBetAmount()/services.league.table.length}}
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                            <div class="col-sm-12 save">  
+                                    <button *ngIf="!services.league.playing" type="button" (click)="startLeague()" class="save btn btn-primary m-t-15 waves-effect">Start</button>
+                                </div></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>E-mail</th>
+                                <th>Team</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of services.league.table" >
+                                <td>{{u.username}}</td>
+                                <td>{{u.teamname}}</td>
+                                <td>{{u.teamprice}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- USERS -->
+<div *ngIf="nav=='users'">
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>email</th>
+                                <th>password</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of users" >
+                                <td>{{u.email}}</td>
+                                <td>{{u.password}}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default waves-effect">MDF</button>
+                                        <button type="button" class="btn btn-warning waves-effect">SEND PWD</button>
+                                        <button type="button" [class.btn-primary]="u.admin" class="btn waves-effect">ADMIN</button>
+                                        <button type="button" (click)="removeUser(u)" class="btn btn-danger waves-effect">REM</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="add">
+                                <td><input [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" type="text" id="email_address_2" class="form-control" placeholder="user email"></td>
+                                <td><input [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" type="text" id="email_address_2" class="form-control" placeholder="user password"></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" (click)="user.admin= !user.admin" [class.btn-primary]="user.admin" class="btn waves-effect">ADMIN</button>
+                                        <button type="button" (click)="addUser()" class="btn btn-success waves-effect">ADD</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LOG -->
+<div *ngIf="nav=='log'">
+        <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Log
+                        <small>manage player settings</small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a (click)="removePlayer();" href="javascript:void(0);" class=" waves-effect waves-block">remove</a></li>
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body table-responsive main-object">
+                    {{log.data}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>User</th>
+                                <th>Service</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor:pointer" (click)="log=l;" [class.primary]="log==l" *ngFor="let l of logs" >
+                                <td>{{l.date | date}}</td>
+                                <td>{{l.user}}</td>
+                                <td>{{l.serviceId}} </td>
+                                <td>{{l.type}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="file" class="hidden" (change)="previewFile()">

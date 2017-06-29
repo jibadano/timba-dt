@@ -1,0 +1,76 @@
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{err.msg}}
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="errorModal.hide();" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div [class.bg-red]="services.user" class="info-box-3 hover-zoom-effect">
+            <div class="icon">
+                <i class="material-icons">person</i>
+            </div>
+            <div class="content">
+                <div *ngIf="!services.user" style="cursor:pointer" (click)="services.router.navigate(['/login']);" class="text">LOG IN</div>
+                <div *ngIf="services.user" >
+                    <div class="text">{{services.user.email}}</div>
+                    <div *ngIf="services.team" class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">{{getPosition()}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div [class.bg-blue]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+            <div class="icon">
+                <i class="material-icons">security</i>
+            </div>
+            <div class="content">
+                <div *ngIf="!services.user || !services.team" style="cursor:pointer" (click)="services.router.navigate(['/teams']);" class="text">SELECT TEAM</div>
+                <div *ngIf="services.user && services.team" >
+                    <div  class="text">{{services.team.name}}</div>
+                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">{{services.status.points}} ptos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div [class.bg-green]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+            <div class="icon">
+                <i class="material-icons">event_note</i>
+            </div>
+            <div class="content">
+                <div *ngIf="!services.user || !services.team" style="cursor:pointer" (click)="services.router.navigate(['/teams']);" class="text">PROXIMO PARTIDO</div>
+                <div *ngIf="services.user && services.team" >
+                    <div *ngIf="getNextMatch()" class="text">{{nextUser}}</div>
+                    <div *ngIf="!nextUser" class="text">SIN PARTIDOS</div>
+                    <div *ngIf="nextMatch" class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">{{nextMatch.date|date:"HH:mm"}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div [class.bg-amber]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+            <div class="icon">
+                <i class="material-icons">local_atm</i>
+            </div>
+            <div class="content">
+                <div class="text">Pozo</div>
+                <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">$ {{services.getBetAmount()}}</div>
+            </div>
+        </div>
+    </div>
+</div>

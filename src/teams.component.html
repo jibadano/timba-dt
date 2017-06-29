@@ -1,0 +1,186 @@
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">ERROR {{err.code}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{err.msg}}
+        <div class="row clearfix" >
+            <button type="button" style="float:right" (click)="errorModal.hide();" class="btn btn-danger m-t-15 waves-effect">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="services.user && services.team" class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive main-object">
+                    <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div  class="image-container">
+                            <img *ngIf="services.team.image && services.team.image != ''" src="{{services.team.image}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
+                        <form class="form-horizontal" style="margin-top:12px">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <label for="email_address_2">Name</label>                                
+                                    <div class="form-group form-group-lg">
+                                        <div class="form-line">
+                                           {{services.team.name}}
+                                           </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address">ATK</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.team.stats.ATK}}
+                                             </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">TEC</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.team.stats.TEC}}
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">DEF</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{services.team.stats.DEF}}
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-10">
+                                    <label for="email_address_2">Price</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            $ {{services.team.price}}
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-2 save">  
+                                    <button  type="button" (click)="unselectTeam()" class="save btn btn-primary m-t-15 waves-effect">Unselect</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf=" !services.team" class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                
+                <div class="body table-responsive main-object">
+                    <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div  class="image-container">
+                            <img *ngIf="team.image && team.image != ''" src="{{team.image}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
+                        <form class="form-horizontal" style="margin-top:12px">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <label for="email_address_2">Name</label>                                
+                                    <div class="form-group form-group-lg">
+                                        <div class="form-line">
+                                           {{team.name}}
+                                           </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-4">
+                                    <label for="email_address">ATK</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{team.stats.ATK}}
+                                             </div>
+                                    </div>   
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">TEC</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{team.stats.TEC}}
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="email_address">DEF</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            {{team.stats.DEF}}
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-10">
+                                    <label for="email_address_2">Price</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            $ {{team.price}}
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-2 save">  
+                                    <button *ngIf="services.isLogged()" type="button" (click)="selectTeam()" class="save btn btn-primary m-t-15 waves-effect">Select</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>ATK</th>
+                                <th>TEC</th>
+                                <th>DEF</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="cursor:pointer" [class.info]="team.name==t.name" *ngFor="let t of services.teams" (click)="setTeam(t);">
+                                <td style="width:42px"><img *ngIf="t.image && t.image != ''" src="{{t.image}}" alt=""></td>
+                                <td>{{t.name}}</td>
+                                <td>{{t.stats.ATK}}</td>
+                                <td>{{t.stats.TEC}} </td>
+                                <td>{{t.stats.DEF}}</td>
+                                <td>$ {{t.price}}</td>
+                                <td><i *ngIf="services.team && t.name==services.team.name"class="material-icons">check</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
