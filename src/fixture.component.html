@@ -80,7 +80,7 @@
                         
                         <tbody>
                             <tr (click)="match=m;matchModal.show();liveMatch=true;showLiveMatch(i);" *ngFor="let m of services.league.fixture;let i = index;">
-                                <td><div *ngIf="m.live">Live!</div><div *ngIf="!m.live">{{m.date|date:"HH:mm"}}</div></td>
+                                <td><div *ngIf="m.live">En vivo!</div><div *ngIf="!m.live">{{m.date|date:"HH:mm"}}</div></td>
                                 <td [class.font-bold]="services.user && m.local.user.username==services.user.email" style="text-align:right">{{m.local.user.username}} <br><div style="font-size:12px;text-align:right">{{m.local.user.teamname}}</div></td>
                                 <td style="width:42px"><img style="width:100%" *ngIf="getTeamImage(m.local.user.teamname)" src="{{getTeamImage(m.local.user.teamname)}}" alt=""></td>
                                 <td style="text-align:center;font-size:20px; font-weight:bold" >{{m.local.score}} - {{m.visitor.score}}</td>
