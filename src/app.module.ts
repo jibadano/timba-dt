@@ -22,7 +22,6 @@ import {JsonPipe} from '@angular/common';
 import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { TimepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { OrderBy } from './order-by.pipe';
-
 const routes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent},

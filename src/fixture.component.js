@@ -18,18 +18,57 @@ var FixtureComponent = (function () {
         this.services = services;
         this.co = new co_1.CO();
         this.liveMatch = false;
+        this.showCard = false;
     }
     ;
     FixtureComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.services.getLeague();
+        setTimeout(function () {
+            _this.showCard = true;
+        }, 100);
     };
-    FixtureComponent.prototype.showLiveMatch = function (i) {
+    FixtureComponent.prototype.refresh = function () {
+        var _this = this;
+        this.showCard = false;
+        setTimeout(function () {
+            _this.showCard = true;
+        }, 200);
+        this.services.getLeague();
+    };
+    FixtureComponent.prototype.live = function (i) {
         var _this = this;
         if (this.liveMatch)
             setTimeout(function () {
-                _this.services.getLeague();
-                _this.match = _this.services.league.fixture[i];
-                _this.showLiveMatch(i);
+                _this.getMatch(i);
+                _this.live(i);
             }, this.services.config.roundDelay * 1000);
+    };
+    FixtureComponent.prototype.showLiveMatch = function (matchIdx) {
+        var _this = this;
+        this.services.getMatch(matchIdx).then(function (co) {
+            if (co.err) {
+                _this.co = co;
+                _this.errorModal.show();
+            }
+            else {
+                _this.match = co.data.match;
+                if (_this.match.live) {
+                    _this.live(matchIdx);
+                }
+            }
+        });
+    };
+    FixtureComponent.prototype.getMatch = function (matchIdx) {
+        var _this = this;
+        this.services.getMatch(matchIdx).then(function (co) {
+            if (co.err) {
+                _this.co = co;
+                _this.errorModal.show();
+            }
+            else
+                _this.match = co.data.match;
+        });
     };
     FixtureComponent.prototype.getTeamImage = function (teamname) {
         var team = this.services.teams.find(function (team) {

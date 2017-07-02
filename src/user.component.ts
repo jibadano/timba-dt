@@ -6,7 +6,18 @@ import { Error }        from './model/error';
 
 @Component({
   selector: 'user',
-   templateUrl: 'src/user.component.html'    
+   templateUrl: 'src/user.component.html',
+   styles:[`
+      .info-box-3{
+        opacity:0;
+        transition:opacity 0.6s;
+      }
+
+      .info-box-show{
+        opacity:1;
+      }
+
+   `]
 })
 
 export class UserComponent implements OnInit {
@@ -14,11 +25,20 @@ export class UserComponent implements OnInit {
     err:Error = new Error();
     nextMatch:any;
     nextUser:string;
+    iShow:boolean[] = [];
     constructor( private services: AppService) {
     }
 
     ngOnInit(){
+      this.showNext(0);
+    }
 
+    showNext(i:number){
+      if(i < 4)
+      setTimeout(()=>{
+        this.iShow[i] = true;
+        this.showNext(++i);
+      },200);
     }
 
     getNextMatch(){

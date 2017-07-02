@@ -5,4 +5,5 @@ export class Match{
 	visitor:{user:any, score:number};
 	date: Date;
 	rounds:any[] = [];
+	live: boolean = false;
 }

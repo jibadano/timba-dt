@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
     @ViewChild('errorModal') public errorModal:ModalDirective;
 
     config:any = {startDate: new Date(), matchDelay:30, roundDelay:30, roundsPerMatch:9, matchsPerDay:99};
-
+    showCard=false;
     err:Error = new Error();
     player:Player = new Player();
     team:Team = new Team();
@@ -39,6 +39,9 @@ export class AdminComponent implements OnInit {
     constructor( private services: AppService) {}
 
     ngOnInit(){
+      setTimeout(()=>{
+        this.showCard=true;
+      },100);
       this.getPlayers();
       this.services.loadScript('admin.js');
       this.services.getUser().then(co => {

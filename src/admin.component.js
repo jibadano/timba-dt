@@ -21,6 +21,7 @@ var AdminComponent = (function () {
     function AdminComponent(services) {
         this.services = services;
         this.config = { startDate: new Date(), matchDelay: 30, roundDelay: 30, roundsPerMatch: 9, matchsPerDay: 99 };
+        this.showCard = false;
         this.err = new error_1.Error();
         this.player = new player_1.Player();
         this.team = new team_1.Team();
@@ -36,6 +37,9 @@ var AdminComponent = (function () {
     }
     AdminComponent.prototype.ngOnInit = function () {
         var _this = this;
+        setTimeout(function () {
+            _this.showCard = true;
+        }, 100);
         this.getPlayers();
         this.services.loadScript('admin.js');
         this.services.getUser().then(function (co) {

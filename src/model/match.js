@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Match = (function () {
     function Match() {
         this.rounds = [];
+        this.live = false;
     }
     return Match;
 }());

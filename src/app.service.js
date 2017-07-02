@@ -95,6 +95,16 @@ var AppService = (function () {
             .toPromise()
             .then(function (co) { _this.teams = co.json().teams; return co.json(); });
     };
+    AppService.prototype.getMatch = function (matchIdx) {
+        var _this = this;
+        return this.http.post('/getMatch', JSON.stringify({ matchIdx: matchIdx }))
+            .toPromise()
+            .then(function (co) {
+            if (co.json().data.match)
+                _this.league.fixture[matchIdx] = co.json().data.match;
+            return co.json();
+        });
+    };
     AppService.prototype.setLeague = function (league) {
         var _this = this;
         this.league = league;

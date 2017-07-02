@@ -20,12 +20,12 @@
 
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div [class.bg-red]="services.user" class="info-box-3 hover-zoom-effect">
+        <div [class.info-box-show]="iShow[0]" (click)="(!services.isLogged())?services.router.navigate(['/login']):services.router.navigate(['/'])" style="cursor:pointer" [class.bg-red]="services.user" class="info-box-3 hover-zoom-effect">
             <div class="icon">
                 <i class="material-icons">person</i>
             </div>
             <div class="content">
-                <div *ngIf="!services.user" style="cursor:pointer" (click)="services.router.navigate(['/login']);" class="text">LOG IN</div>
+                <div *ngIf="!services.user" style="cursor:pointer"  class="text">LOG IN</div>
                 <div *ngIf="services.user" >
                     <div class="text">{{services.user.email}}</div>
                     <div *ngIf="services.team" class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">{{getPosition()}}</div>
@@ -34,12 +34,12 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div [class.bg-blue]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+        <div [class.info-box-show]="iShow[1]" (click)="services.router.navigate(['/teams']);" style="cursor:pointer" [class.bg-blue]="services.user && services.team" class="info-box-3 hover-zoom-effect">
             <div class="icon">
                 <i class="material-icons">security</i>
             </div>
             <div class="content">
-                <div *ngIf="!services.user || !services.team" style="cursor:pointer" (click)="services.router.navigate(['/teams']);" class="text">SELECT TEAM</div>
+                <div *ngIf="!services.user || !services.team" style="cursor:pointer"  class="text">SELECT TEAM</div>
                 <div *ngIf="services.user && services.team" >
                     <div  class="text">{{services.team.name}}</div>
                     <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20">{{services.status.points}} ptos</div>
@@ -48,12 +48,12 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div [class.bg-green]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+        <div [class.info-box-show]="iShow[2]" (click)="services.router.navigate(['/fixture']);" style="cursor:pointer" [class.bg-green]="services.user && services.team" class="info-box-3 hover-zoom-effect">
             <div class="icon">
                 <i class="material-icons">event_note</i>
             </div>
             <div class="content">
-                <div *ngIf="!services.user || !services.team" style="cursor:pointer" (click)="services.router.navigate(['/teams']);" class="text">PROXIMO PARTIDO</div>
+                <div *ngIf="!services.user || !services.team" style="cursor:pointer" class="text">PROXIMO PARTIDO</div>
                 <div *ngIf="services.user && services.team" >
                     <div *ngIf="getNextMatch()" class="text">{{nextUser}}</div>
                     <div *ngIf="!nextUser" class="text">SIN PARTIDOS</div>
@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div [class.bg-amber]="services.user && services.team" class="info-box-3 hover-zoom-effect">
+        <div [class.info-box-show]="iShow[3]" [class.bg-amber]="services.user && services.team" style="cursor:pointer" class="info-box-3 hover-zoom-effect">
             <div class="icon">
                 <i class="material-icons">local_atm</i>
             </div>

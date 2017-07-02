@@ -15,21 +15,59 @@ export class FixtureComponent implements OnInit {
     co: CO = new CO();
     match:any;
     liveMatch:boolean = false;
+    showCard= false;
   constructor(private services: AppService) { };
     @ViewChild('errorModal') public errorModal:ModalDirective;
      @ViewChild('matchModal') public matchModal:ModalDirective;
 
 
     ngOnInit(){
+        this.services.getLeague();
+        setTimeout(()=>{
+        this.showCard=true;
+      },100)
     }
     
-    showLiveMatch(i:number){
+    refresh(){
+        this.showCard=false;
+        setTimeout(()=>{
+        this.showCard=true;
+      },200)
+        this.services.getLeague();
+    }
+
+    live(i:number){
         if(this.liveMatch)
             setTimeout(()=>{
-                this.services.getLeague();
-                this.match = this.services.league.fixture[i];
-                this.showLiveMatch(i);
+                this.getMatch(i);
+                this.live(i);
             },this.services.config.roundDelay*1000);
+    }
+
+    showLiveMatch(matchIdx:number){
+        this.services.getMatch(matchIdx).then(co => {
+            if(co.err){
+                this.co = co;this.errorModal.show();
+            }
+            else{
+                this.match = co.data.match;
+                if(this.match.live){
+                    this.live(matchIdx);
+                }
+            }
+            
+        })
+    }
+
+    getMatch(matchIdx:number){
+        this.services.getMatch(matchIdx).then(co => {
+            if(co.err){
+                this.co = co;this.errorModal.show();
+            }
+            else
+                this.match = co.data.match;
+            
+        })
     }
 
 

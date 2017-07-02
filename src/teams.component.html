@@ -20,7 +20,7 @@
 
 <div *ngIf="services.user && services.team" class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div [class.card-show]="showCard"  class="card">
                 <div class="body table-responsive main-object">
                     <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div  class="image-container">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
-                        <form class="form-horizontal" style="margin-top:12px">
+                        <form class="form-horizontal" style="margin-top:30px">
                             <div class="row clearfix">
                                 <div class="col-sm-12">
                                     <label for="email_address_2">Name</label>                                
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>  
                                 <div class="col-sm-2 save">  
-                                    <button  type="button" (click)="unselectTeam()" class="save btn btn-primary m-t-15 waves-effect">Unselect</button>
+                                    <button *ngIf="!services.league.playing" type="button" (click)="unselectTeam()" class="save btn btn-primary m-t-15 waves-effect">Unselect</button>
                                 </div>
                             </div>
                         </form>
@@ -87,7 +87,7 @@
 
     <div *ngIf=" !services.team" class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div [class.card-show]="showCard"  class="card">
                 
                 <div class="body table-responsive main-object">
                     <div class="main-image col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:0;padding-left:30px">
-                        <form class="form-horizontal" style="margin-top:12px">
+                        <form class="form-horizontal" style="margin-top:30px">
                             <div class="row clearfix">
                                 <div class="col-sm-12">
                                     <label for="email_address_2">Name</label>                                
@@ -155,7 +155,7 @@
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div [class.card-show]="showCard"  class="card">
                 <div class="body table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -169,7 +169,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="cursor:pointer" [class.info]="team.name==t.name" *ngFor="let t of services.teams" (click)="setTeam(t);">
+                            <tr style="cursor:pointer" [class.bg-blue]="team.name==t.name" *ngFor="let t of services.teams" (click)="setTeam(t);">
                                 <td style="width:42px"><img *ngIf="t.image && t.image != ''" src="{{t.image}}" alt=""></td>
                                 <td>{{t.name}}</td>
                                 <td>{{t.stats.ATK}}</td>

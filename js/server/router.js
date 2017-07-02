@@ -17,6 +17,7 @@ function init(app,requestHandler){
 	app.post('/signUp',requestHandler.signUp );
 	app.post('/getLeague',requestHandler.getLeague );
 	app.post('/getTeams',requestHandler.getTeams );
+	app.post('/getMatch',requestHandler.getMatch );
 	app.post('/getConfig',requestHandler.getConfig );
 
 

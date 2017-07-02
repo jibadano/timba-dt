@@ -16,11 +16,16 @@ export class TeamsComponent implements OnInit {
     @ViewChild('errorModal') public errorModal:ModalDirective;
     err:Error = new Error();
     team:Team = new Team();
+        showCard= false;
+
     constructor( private services: AppService) {
     }
 
     ngOnInit(){
         this.getTeams();
+         setTimeout(()=>{
+        this.showCard=true;
+      },100)
     }
 
     selectTeam(){

@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
         this.errorModal.show();
   });
     else{
-      this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Must complete user and password" };
+      this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Debe completar contraseña y email" };
       this.errorModal.show();
     }
   }
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit{
     if (this.user.email != '') 
       this.services.forgotPassword(this.user).then(co => this.co);
     else{
-      this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Must complete email" };
+      this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Debe completar el email" };
       this.errorModal.show();
     }
     
@@ -68,9 +68,9 @@ export class LoginComponent implements OnInit{
     }
     else {
       if (!this.user.email || this.user.email == '')
-        this.co.err = {code: 'CHANNEL_VALIDATION',  msg: "Must complete email" };
+        this.co.err = {code: 'CHANNEL_VALIDATION',  msg: "Debe completar email" };
       if (this.user.password != this.confirmPassword)
-        this.co.err = {code: 'CHANNEL_VALIDATION',  msg: "Wrong password confirmation" };
+        this.co.err = {code: 'CHANNEL_VALIDATION',  msg: "Error al confirmar la contraseña" };
 
         this.errorModal.show();
     }

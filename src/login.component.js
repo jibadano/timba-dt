@@ -41,7 +41,7 @@ var LoginComponent = (function () {
                     _this.errorModal.show();
             });
         else {
-            this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Must complete user and password" };
+            this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Debe completar contraseña y email" };
             this.errorModal.show();
         }
     };
@@ -50,7 +50,7 @@ var LoginComponent = (function () {
         if (this.user.email != '')
             this.services.forgotPassword(this.user).then(function (co) { return _this.co; });
         else {
-            this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Must complete email" };
+            this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Debe completar el email" };
             this.errorModal.show();
         }
     };
@@ -65,9 +65,9 @@ var LoginComponent = (function () {
         }
         else {
             if (!this.user.email || this.user.email == '')
-                this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Must complete email" };
+                this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Debe completar email" };
             if (this.user.password != this.confirmPassword)
-                this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Wrong password confirmation" };
+                this.co.err = { code: 'CHANNEL_VALIDATION', msg: "Error al confirmar la contraseña" };
             this.errorModal.show();
         }
     };

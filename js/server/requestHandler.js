@@ -60,6 +60,8 @@ function nextMatch(i){
 
 function playRound(match,localTeam, visitorTeam){
 	console.log('round: ' + match.rounds.length);
+	if(match.rounds.length == 0)
+		match.live = true;
 	if( match.rounds.length < config.roundsPerMatch){
 		setTimeout(function(){
 			var position = playStats(localTeam.stats.TEC,visitorTeam.stats.TEC);
@@ -98,6 +100,7 @@ function playRound(match,localTeam, visitorTeam){
 		},config.roundDelay*1000);
 	}
 	else{
+		match.live = false;
 		var localEntry = getTableEntry(match.local.user.username);
 		var visitorEntry = getTableEntry(match.visitor.user.username);
 
@@ -424,6 +427,13 @@ function getLeague(req, res){
 		res.end('{}');
 }
 
+function getConfig(req,res){
+	if(config)
+		res.end(JSON.stringify({config:config}));
+	else
+		res.end('{}');
+}
+
 function getTeams(req, res){
 	db.Team.find().
 	sort({ name: 1 }).
@@ -435,11 +445,13 @@ function getTeams(req, res){
 	});
 }
 
-function getConfig(req,res){
-	if(config)
-		res.end(JSON.stringify({config:config}));
-	else
-		res.end('{}');
+function getMatch(req, res){
+	getData(req, function(data){
+		if(data.matchIdx >= 0)
+			res.end(JSON.stringify({data:{match:league.fixture[data.matchIdx]}}));
+		else
+			res.end(JSON.stringify({err:{msg:'no match found', code:'NO_MATCH_FOUND'}}));
+	});
 }
 
 
@@ -541,5 +553,6 @@ exports.signUp = signUp;
 exports.getLeague = getLeague;
 exports.getTeams = getTeams;
 exports.getConfig = getConfig;
+exports.getMatch = getMatch;
 
 

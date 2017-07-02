@@ -99,6 +99,14 @@ export class AppService implements OnInit {
       .then(co => {this.teams = co.json().teams;return co.json() as CO});
   }
 
+  getMatch(matchIdx:number){
+    return this.http.post('/getMatch', JSON.stringify({matchIdx:matchIdx}))
+      .toPromise()
+      .then(co => {if(co.json().data.match) 
+                    this.league.fixture[matchIdx] = co.json().data.match;
+        return co.json() as CO});
+  }
+
   setLeague(league:League){
     this.league = league;
     if(this.user)

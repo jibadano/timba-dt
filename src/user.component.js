@@ -17,8 +17,18 @@ var UserComponent = (function () {
     function UserComponent(services) {
         this.services = services;
         this.err = new error_1.Error();
+        this.iShow = [];
     }
     UserComponent.prototype.ngOnInit = function () {
+        this.showNext(0);
+    };
+    UserComponent.prototype.showNext = function (i) {
+        var _this = this;
+        if (i < 4)
+            setTimeout(function () {
+                _this.iShow[i] = true;
+                _this.showNext(++i);
+            }, 200);
     };
     UserComponent.prototype.getNextMatch = function () {
         var _this = this;
@@ -58,7 +68,8 @@ __decorate([
 UserComponent = __decorate([
     core_1.Component({
         selector: 'user',
-        templateUrl: 'src/user.component.html'
+        templateUrl: 'src/user.component.html',
+        styles: ["\n      .info-box-3{\n        opacity:0;\n        transition:opacity 0.6s;\n      }\n\n      .info-box-show{\n        opacity:1;\n      }\n\n   "]
     }),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], UserComponent);

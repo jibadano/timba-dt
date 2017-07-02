@@ -18,16 +18,15 @@
   </div>
 </div>
 
-
     <div  class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div [class.card-show]="showCard" class="card">
                 <div class="body table-responsive">
+                    <h3 *ngIf="!services.league.playing">¡La timba todavía está por comenzar! <small>Ingresa y selecciona tu equipo</small></h3>
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Equipo</th>
                                 <th>Usuario</th>
                                 <th>PG</th>
                                 <th>PE</th>
@@ -41,15 +40,14 @@
                         <tbody>
                             <tr *ngFor="let u of services.league.table | orderBy: 'points':false">
                                 <td style="width:42px"><img style="width:100%" *ngIf="getTeamImage(u.teamname)" src="{{getTeamImage(u.teamname)}}" alt=""></td>
-                                <td>{{u.teamname}}</td>
-                                <td>{{u.username}}</td>
+                                <td [class.font-bold]="services.user && u.username==services.user.email" >{{u.username}} <br><div style="font-size:12px">{{u.teamname}}</div></td>
                                 <td>{{u.won}}</td>
                                 <td>{{u.draw}}</td>
                                 <td>{{u.lost}}</td>
                                 <td>{{u.played}} </td>
                                 <td>{{u.gf}}</td>
                                 <td>{{u.gc}}</td>
-                                <td>{{u.points}}</td>
+                                <td style="font-weight:bold; font-size:18px">{{u.points}}</td>
                                 <td><i *ngIf="services.user && u.username==services.user.email"class="material-icons">check</i></td>
                             </tr>
                         </tbody>

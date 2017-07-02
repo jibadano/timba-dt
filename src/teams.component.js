@@ -19,9 +19,14 @@ var TeamsComponent = (function () {
         this.services = services;
         this.err = new error_1.Error();
         this.team = new team_1.Team();
+        this.showCard = false;
     }
     TeamsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.getTeams();
+        setTimeout(function () {
+            _this.showCard = true;
+        }, 100);
     };
     TeamsComponent.prototype.selectTeam = function () {
         var _this = this;

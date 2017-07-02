@@ -16,8 +16,13 @@ var HomeComponent = (function () {
     function HomeComponent(services) {
         this.services = services;
         this.err = new error_1.Error();
+        this.showCard = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.showCard = true;
+        }, 100);
         this.services.getLeague();
     };
     HomeComponent.prototype.getTeamImage = function (teamname) {
@@ -34,6 +39,7 @@ HomeComponent = __decorate([
     core_1.Component({
         selector: 'home',
         templateUrl: 'src/home.component.html',
+        styles: ["td{vertical-align:middle!important} \n    .card{\n        opacity:0;\n        transition:opacity 0.4s;\n      }\n\n      .card-show{\n        opacity:1;\n      }\n   "]
     }),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], HomeComponent);
