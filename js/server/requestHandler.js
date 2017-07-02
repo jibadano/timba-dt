@@ -17,7 +17,7 @@ var mail = require('./mail');
 
 var config = {startDate: new Date(), matchDelay:30, roundDelay:30, roundsPerMatch:9, matchsPerDay:99};
 var league = {
-	table: [{"username":"u2@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0},{"username":"u1@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0},{"username":"jibadano@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0}],
+	table: [],//[{"username":"u2@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0},{"username":"u1@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0},{"username":"jibadano@gmail.com","teamname":"Barcelona","teamprice":10,"points":0,"played":0,"won":0,"lost":0,"draw":0,"gf":0,"gc":0}],
 	fixture:[],
 	playing:false
 }
